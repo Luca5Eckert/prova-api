@@ -21,7 +21,7 @@ import com.prova.jpql.mapper.CategoriaMapper;
 import com.prova.jpql.mapper.ProdutoMapper;
 import com.prova.jpql.service.CategoriaService;
 
-@Controller
+@RestController
 @RequestMapping("/api/categorias")
 public class CategoriaController {
 
