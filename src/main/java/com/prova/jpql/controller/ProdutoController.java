@@ -20,7 +20,7 @@ import com.prova.jpql.mapper.ProdutoMapper;
 import com.prova.jpql.projection.RelatorioProjection;
 import com.prova.jpql.service.ProdutoService;
 
-@Controller
+@RestController
 @RequestMapping("/api/produtos")
 public class ProdutoController {
 
@@ -73,7 +73,7 @@ public class ProdutoController {
         return ResponseEntity.ok(produtoMapper.toResponse(produto));
     }
 
-    @DeleteMapping
+    @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteById(@PathVariable Long id){
         produtoService.deleteById(id);
 
