@@ -1,0 +1,48 @@
+package com.weg.provaapplucasismaeleckert.service;
+
+import java.util.List;
+
+import org.springframework.stereotype.Service;
+
+import com.weg.provaapplucasismaeleckert.dto.setor.CreateSetorRequestDto;
+import com.weg.provaapplucasismaeleckert.model.Equipamento;
+import com.weg.provaapplucasismaeleckert.model.Setor;
+import com.weg.provaapplucasismaeleckert.repository.SetorRepository;
+
+import lombok.RequiredArgsConstructor;
+
+@Service
+@RequiredArgsConstructor
+public class SetorService {
+
+    private SetorRepository setorRepository;
+
+    public Setor create(CreateSetorRequestDto request) {
+        if (setorRepository.existsByNome(request.nome())) {
+            throw new RuntimeException("Setor já existente");
+        }
+
+        var setor = Setor.builder()
+                .nome(request.nome())
+                .build();
+
+        return setorRepository.save(setor);
+    }
+
+    public List<Setor> getAll() {
+        return setorRepository.findAll();
+    }
+
+    public Setor getById(Long id) {
+        return setorRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Setor não encontrado pelo id"));
+    }
+
+    public List<Equipamento> getAllEquipamentoBySetorId(Long id){
+        Setor setor = setorRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Setor não encontrado pelo id"));
+
+        return setor.getEquipamentos();
+    }
+
+}

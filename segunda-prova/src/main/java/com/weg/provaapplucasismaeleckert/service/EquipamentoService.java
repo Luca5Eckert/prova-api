@@ -1,0 +1,76 @@
+package com.weg.provaapplucasismaeleckert.service;
+
+import java.time.LocalDate;
+import java.util.List;
+
+import org.springframework.stereotype.Service;
+
+import com.weg.provaapplucasismaeleckert.dto.equipamento.CreateEquipamentoRequestDto;
+import com.weg.provaapplucasismaeleckert.dto.equipamento.UpdateEquipamentoRequestDto;
+import com.weg.provaapplucasismaeleckert.model.Equipamento;
+import com.weg.provaapplucasismaeleckert.model.Setor;
+import com.weg.provaapplucasismaeleckert.projection.RelatorioProjection;
+import com.weg.provaapplucasismaeleckert.repository.EquipamentoRepository;
+import com.weg.provaapplucasismaeleckert.repository.SetorRepository;
+
+@Service
+public class EquipamentoService {
+
+    private final EquipamentoRepository equipamentoRepository;
+    private final SetorRepository setorRepository;
+
+    public EquipamentoService(EquipamentoRepository equipamentoRepository, SetorRepository setorRepository){
+        this.equipamentoRepository = equipamentoRepository;
+        this.setorRepository = setorRepository;
+    }
+
+    public Equipamento create(CreateEquipamentoRequestDto request) {
+        Setor setor = setorRepository.findById(request.setorId())
+                .orElseThrow(() -> new RuntimeException("Setor não existe já existente"));
+
+        var equipamento = Equipamento.builder()
+                .nome(request.nome())
+                .numeroSerie(request.numeroSerie())
+                .valor(request.valor())
+                .dataAquisicao(LocalDate.now())
+                .setor(setor)
+                .build();
+
+        return equipamentoRepository.save(equipamento);
+    }
+
+    public Equipamento update(Long id, UpdateEquipamentoRequestDto request) {
+        Equipamento equipamento = equipamentoRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Equipamento não encontrado pelo id"));
+
+        Setor setor = setorRepository.findById(request.setorId())
+                .orElseThrow(() -> new RuntimeException("Setor não existe já existente"));
+
+        equipamento.update(
+            request.nome(),
+            request.numeroSerie(),
+            request.valor(),
+            setor
+        );
+
+        return equipamentoRepository.save(equipamento);
+    }
+
+    public List<Equipamento> getAll() {
+        return equipamentoRepository.findAll();
+    }
+
+    public Equipamento getById(Long id) {
+        return equipamentoRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Equipamento não encontrado pelo id"));
+    }
+
+    public void deleteById(Long id) {
+        equipamentoRepository.deleteById(id);
+    }
+
+    public List<RelatorioProjection> getRelatorio(){
+        return equipamentoRepository.getRelatorioProjection();
+    }
+
+}

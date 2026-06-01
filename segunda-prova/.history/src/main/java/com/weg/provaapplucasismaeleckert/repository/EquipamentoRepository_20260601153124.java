@@ -1,0 +1,27 @@
+package com.weg.provaapplucasismaeleckert.repository;
+
+import java.util.List;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+
+import com.weg.provaapplucasismaeleckert.model.Equipamento;
+import com.weg.provaapplucasismaeleckert.projection.RelatorioProjection;
+
+public interface EquipamentoRepository extends JpaRepository<Equipamento, Long>{
+    
+    @Query(
+        value=
+        """
+            SELECT 
+	        e.nome as nomeEquipamento,
+            e.valor as valor,
+            s.nome as nomeSetor
+            FROM equipamento e
+            JOIN setor s ON e.setor_id = s.id
+        """,
+        nativeQuery=true
+    )
+    public List<RelatorioProjection> getRelatorioProjection();
+
+}

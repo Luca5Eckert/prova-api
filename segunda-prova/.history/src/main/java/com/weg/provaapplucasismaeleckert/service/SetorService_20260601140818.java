@@ -1,0 +1,18 @@
+package com.weg.provaapplucasismaeleckert.service;
+
+import org.springframework.stereotype.Service;
+
+import com.weg.provaapplucasismaeleckert.model.Setor;
+import com.weg.provaapplucasismaeleckert.repository.SetorRepository;
+
+import lombok.RequiredArgsConstructor;
+
+@Service
+@RequiredArgsConstructor
+public class SetorService {
+    
+    private SetorRepository setorRepository;
+
+    public Setor create()
+
+}

@@ -1,0 +1,48 @@
+package com.weg.provaapplucasismaeleckert.model;
+
+import java.math.BigDecimal;
+import java.time.LocalDate;
+
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+@Entity
+@Setter
+@Getter
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
+public class Equipamento {
+    
+    @Id
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
+    private Long id;
+
+    private String nome;
+
+    private String numeroSerie;
+
+    private BigDecimal valor;
+
+    private LocalDate dataAquisicao;
+
+    @ManyToOne
+    @JoinColumn(name="setor_id")
+    private Setor setor;
+
+    public void update(String nome2, String numeroSerie2, BigDecimal valor2, Setor setor2) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'update'");
+    }
+    
+
+}

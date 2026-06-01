@@ -1,0 +1,8 @@
+package com.weg.provaapplucasismaeleckert.dto.equipamento;
+
+public record EquipamentoResponse(
+    Long id,
+    String nome
+) {
+    
+}
